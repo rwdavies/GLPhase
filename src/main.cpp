@@ -18,7 +18,7 @@ namespace po = boost::program_options;
 
 int main(int ac, char **av) {
 
-  cerr << "INSTI -- v" << VERSION_MAJOR << "." << VERSION_MINOR << "."
+  cerr << "GLPhase -- v" << VERSION_MAJOR << "." << VERSION_MINOR << "."
        << VERSION_XSTR(VERSION_REVISION) << endl;
   try {
     stringstream commandLine;
@@ -197,7 +197,7 @@ int main(int ac, char **av) {
 
     // Die if more than one file was specified on command line
     if (fn != 1) {
-      cerr << endl << "INSTI only accepts one input .bin file" << endl << endl;
+      cerr << endl << "GLPhase only accepts one input .bin file" << endl << endl;
       Insti::document();
     }
 

@@ -18,9 +18,9 @@ HEADER_FILES += hmmLike.hpp.gch
 endif
 
 ifndef NCUDA
-BIN := $(BDIR)/insti.$(VERSION)
+BIN := $(BDIR)/glphase.$(VERSION)
 else
-BIN :=  $(BDIR)/insti.$(VERSION).ncuda
+BIN :=  $(BDIR)/glphase.$(VERSION).ncuda
 CXXFLAGS += -DNCUDA
 endif
 
@@ -166,7 +166,7 @@ $(BIN): $(OBJECT_FILES)
 	cd $(BDIR) && rm -f insti && ln -s $@ insti
 
 static: $(OBJECT_FILES)
-	$(CXX) $(CXXFLAGS) $(OBJECT_FILES) -o $(BDIR)/insti.$(VERSION).static-$(KERNEL) $(SLIBS)
+	$(CXX) $(CXXFLAGS) $(OBJECT_FILES) -o $(BDIR)/glphase.$(VERSION).static-$(KERNEL) $(SLIBS)
 
 $(BIN).debug: $(OBJECT_FILES)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LIBS)
@@ -174,7 +174,7 @@ $(BIN).debug: $(OBJECT_FILES)
 
 ## installation
 oxford: all
-	cd $(BDIR) && cp insti.$(VERSION) ~/bin/
-	cd ~/bin && rm -f insti && ln -s insti.$(VERSION) insti
+	cd $(BDIR) && cp glphase.$(VERSION) ~/bin/
+	cd ~/bin && rm -f glphase && ln -s glphase.$(VERSION) glphase
 
 .SUFFIXES:
