@@ -1226,8 +1226,8 @@ void Insti::initialize() {
 
   if (posi.size() == mn) {
     for (unsigned m = 0; m < mn; m++)
-      is_par[m] = (posi[m] >= 60001 && posi[m] <= 2699520) ||
-                  (posi[m] >= 154931044 && posi[m] <= 155270560);
+      is_par[m] = (posi[m] >= PAR1_FIRST && posi[m] <= PAR1_LAST) ||
+                  posi[m] >= PAR2_FIRST;
   }
 
   if (posi.size() != mn) {
