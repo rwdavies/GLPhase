@@ -45,7 +45,11 @@ test: CXXFLAGS += -O0 -ggdb
 CXX := g++-4.7+
 CXXFLAGS += -Wall -Wextra -std=c++11 -mpopcnt -fopenmp
 BOOSTLIB := -lboost_iostreams-mt #alternatively: /opt/boost/boost-1.54.0-intel/lib/libboost_iostreams.a
-LIBS += -lgsl -lgslcblas -ltabix -lbz2 $(BOOSTLIB) -lm -lstdc++ -lz
+NSTATIC_LIBS := -lm -lstdc++ -lbz2
+STATICABLE_LIBS := -lgsl -lgslcblas -ltabix $(BOOSTLIB) -lz
+POST_STATIC := $(NSTATIC_LIBS) $(STATICABLE_LIBS)
+static: POST_STATIC := $(NSTATIC_LIBS) -Wl,-Bstatic $(STATICABLE_LIBS) -Wl,-Bdynamic
+LIBS += $(POST_STATIC)
 
 # nvcc
 ifndef NCUDA
@@ -80,7 +84,6 @@ export NVCC
 endif
 
 static: KERNEL := $(shell uname -r)
-static: SLIBS := u-wkretzsch-snptools/samtools-0.1.16/libbam.a u-wkretzsch-snptools/tabix-0.2.5/libtabix.a /usr/lib64/libm.a ~/lib/libz.a ~/li
 
 # I'm deprecating this
 #testDebug: $(OBJECT_FILES) $(HEADER_FILES) debug
@@ -166,7 +169,7 @@ $(BIN): $(OBJECT_FILES)
 	cd $(BDIR) && rm -f insti && ln -s $@ insti
 
 static: $(OBJECT_FILES)
-	$(CXX) $(CXXFLAGS) $(OBJECT_FILES) -o $(BDIR)/glphase.$(VERSION).static-$(KERNEL) $(SLIBS)
+	$(CXX) $(CXXFLAGS) $(OBJECT_FILES) -o $(BDIR)/glphase.$(VERSION).static-$(KERNEL) $(LIBS)
 
 $(BIN).debug: $(OBJECT_FILES)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LIBS)
